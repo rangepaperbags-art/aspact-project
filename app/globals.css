@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* app/globals.css */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* Custom responsive utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 640px) {
+  .chart-container-mobile {
+    height: 250px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .chart-container-tablet {
+    height: 300px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .chart-container-desktop {
+    height: 320px;
+  }
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 768px) {
+  button, 
+  [role="button"],
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}

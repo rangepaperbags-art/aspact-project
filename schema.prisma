@@ -1,0 +1,103 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model SuperPAC {
+  id          String   @id @default(cuid())
+  name        String
+  funding     String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ads               Ad[]
+  spendingAnalytics SpendingAnalytics[]
+
+  @@map("super_pacs")
+}
+
+model Platform {
+  id          String       @id @default(cuid())
+  name        String
+  type        PlatformType
+  apiEndpoint String?
+  createdAt   DateTime     @default(now())
+
+  ads               Ad[]
+  spendingAnalytics SpendingAnalytics[]
+
+  @@map("platforms")
+}
+
+model Ad {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  thumbnail   String?
+
+  superPACId String
+  superPAC   SuperPAC @relation(fields: [superPACId], references: [id])
+
+  platformId String
+  platform   Platform @relation(fields: [platformId], references: [id])
+
+  spend            Float
+  impressions      Int
+  clicks           Int
+  targetAudience   String?
+  adType           AdType
+  politicalLeaning PoliticalLeaning?
+
+  startDate DateTime
+  endDate   DateTime?
+
+  metadata Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ads")
+}
+
+model SpendingAnalytics {
+  id         String   @id @default(cuid())
+  superPACId String
+  superPAC   SuperPAC @relation(fields: [superPACId], references: [id])
+
+  platformId String
+  platform   Platform @relation(fields: [platformId], references: [id])
+
+  totalSpend Float
+  date       DateTime
+  adCount    Int
+
+  @@map("spending_analytics")
+}
+
+enum PlatformType {
+  SOCIAL_MEDIA
+  TV
+  GOVERNMENT
+  RESEARCH
+}
+
+enum AdType {
+  VIDEO
+  IMAGE
+  TEXT
+  CAROUSEL
+}
+
+enum PoliticalLeaning {
+  PROGRESSIVE
+  CONSERVATIVE
+  MODERATE
+  NON_PARTISAN
+}
