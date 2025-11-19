@@ -51,13 +51,13 @@ export default function SpendingMatrix({ data }: SpendingMatrixProps) {
               type="number" 
               dataKey="adCount" 
               name="Ad Count"
-              label={{ value: 'Number of Ads', position: 'bottom' }}
+              label={{ value: 'Number of Ads', position: 'bottomleft', offset: 0 }}
             />
             <YAxis 
               type="number" 
               dataKey="spend" 
               name="Total Spend"
-              label={{ value: 'Total Spend ($)', angle: -90, position: 'insideLeft' }}
+              label={{ value: 'Total Spend($)', angle: -90, position: 'left', offset: 2 }}
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
             />
             <ZAxis 
@@ -66,7 +66,7 @@ export default function SpendingMatrix({ data }: SpendingMatrixProps) {
               range={[50, 500]} 
               name="Efficiency"
             />
-            <Tooltip labelClassName='p-4'
+            <Tooltip
               formatter={(value, name) => {
                 if (name === 'spend') return [formatCurrency(Number(value)), 'Total Spend'];
                 if (name === 'efficiency') return [formatCurrency(Number(value)), 'Spend per Ad'];
